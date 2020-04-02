@@ -1,0 +1,5 @@
+#d variable_name
+#s variable_name 5
+#v next_variable 9
+#g variable_name
+#g next_variable
