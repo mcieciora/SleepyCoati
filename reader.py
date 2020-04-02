@@ -1,5 +1,5 @@
-from Expression import Expression
-from Command import Command
+from .Expression import Expression
+from .Command import Command
 
 
 # temporary read function
