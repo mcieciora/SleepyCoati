@@ -1,4 +1,4 @@
 class Expression:
-    def __init__(self, structure, call):
-        self.structure = structure
-        self.call = call
+    def __init__(self, head, body):
+        self.head = head
+        self.body = body
