@@ -30,7 +30,3 @@ def validate_line(line):
         return [True, Expression(split_command_list[0], value_evaluation(split_command_list[1:]))]
     else:
         return [False]
-
-
-abc = read_co_file('example.co')
-print('abc')
