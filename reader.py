@@ -24,9 +24,13 @@ def value_evaluation(expression_list):
 
 
 def validate_line(line):
-    if line != '':
+    if line != '\n':
         split_command_list = ' '.join(line.split())
         split_command_list = split_command_list.replace('\n', '').split(' ')
         return [True, Expression(split_command_list[0], value_evaluation(split_command_list[1:]))]
     else:
         return [False]
+
+
+abc = read_co_file('example.co')
+print('abc')
