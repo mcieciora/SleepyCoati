@@ -1,4 +1,4 @@
-import ast
+from ast import literal_eval
 from Expression import Expression
 
 
@@ -17,7 +17,7 @@ def value_evaluation(expression_list):
     for x in range(len(expression_list)):
         if expression_list[x] != '':
             try:
-                return_list.append(ast.literal_eval(expression_list[x]))
+                return_list.append(literal_eval(expression_list[x]))
             except ValueError:
                 return_list.append(expression_list[x])
     return return_list

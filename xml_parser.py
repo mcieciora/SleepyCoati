@@ -1,11 +1,10 @@
-import xmltodict
-
+from xmltodict import parse
 from Command import Command
 
 
 def generate_all_commands_list(xml_file_path):
     with open(xml_file_path) as co:
-        xml_file = xmltodict.parse(co.read())
+        xml_file = parse(co.read())
     all_commands = []
     commands = xml_file['commands']['command']
     if type(commands) != list:
