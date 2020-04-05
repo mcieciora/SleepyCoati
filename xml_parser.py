@@ -1,7 +1,7 @@
 import xmltodict
 
 from Command import Command
-from collections import OrderedDict
+
 
 def generate_all_commands_list(xml_file_path):
     with open(xml_file_path) as co:
