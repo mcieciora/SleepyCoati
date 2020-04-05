@@ -8,4 +8,3 @@ def set_variable(variable_name, variable_value):
 
 def get_variable(variable_name):
     return globals()[variable_name]
-

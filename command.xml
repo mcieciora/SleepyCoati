@@ -16,6 +16,14 @@
         </usage_pattern>
     </command>
     <command>
+        <structure>#s</structure>
+        <name>set_variable</name>
+        <usage_pattern>
+            <element>str</element>
+            <element>bool</element>
+        </usage_pattern>
+    </command>
+    <command>
         <structure>#g</structure>
         <name>get_variable</name>
         <usage_pattern>
