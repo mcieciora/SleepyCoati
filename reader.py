@@ -31,7 +31,7 @@ def value_evaluation(expression_list):
 
 
 def validate_line(line):
-    if line != '\n':
+    if line != '\n' and line != '':
         split_command_list = ' '.join(line.split())
         split_command_list = split_command_list.replace('\n', '').split(' ')
         print('[INF] Line: {}[INF] Correctly parsed.\n[INF] Returning command head: {} and command body: {}'.format(line,
