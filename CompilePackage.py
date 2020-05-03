@@ -12,12 +12,15 @@ class CompilePackage:
         self.commands_list = commands_list
 
     def compile_startup(self):
+        print('[INF] Compile startup ..')
         self.read_co = read_co_file(self.co_file)
         parser = Parser(self.read_co, self.xml_file)
         self.commands_list = parser.build_command_list()
         self.read_co = None
+        print('[INF] Compile finished.')
         return self
 
     def compile(self):
         for command in self.commands_list:
+            print('[INF] Executing command: {}'.format(command))
             exec('compilants.{}({})'.format(command.name, command.body))
