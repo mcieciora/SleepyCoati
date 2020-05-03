@@ -30,4 +30,11 @@
             <element>str</element>
         </usage_pattern>
     </command>
+    <command>
+        <structure>#t</structure>
+        <name>get_type</name>
+        <usage_pattern>
+            <element>str</element>
+        </usage_pattern>
+    </command>
 </commands>
