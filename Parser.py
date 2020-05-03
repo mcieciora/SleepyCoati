@@ -42,7 +42,7 @@ class Parser:
             if command.structure == structure:
                 print('[INF] {} == {}'.format(command.structure, structure))
                 full_commands_list.append(command)
-        print('[INF] Returning all matching cases: {}'.format(*full_commands_list))
+        print('[INF] Returning all matching cases: {}'.format(full_commands_list))
         return full_commands_list
 
     @staticmethod
