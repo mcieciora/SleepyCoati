@@ -19,7 +19,7 @@ def value_evaluation(expression_list):
     return_list = []
     print('[INF] Evaluating expression list: {}'.format(expression_list))
     for x in range(len(expression_list)):
-        print('[INF] Checking element: {}'.format(x))
+        print('[INF] Checking element: {}'.format(expression_list[x]))
         if expression_list[x] != '':
             try:
                 print('[INF] Appending converted value ..')
