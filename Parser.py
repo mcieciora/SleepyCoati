@@ -56,6 +56,8 @@ class Parser:
                 evaluated_values_list.append(literal_eval(value))
             except ValueError:
                 evaluated_values_list.append(value)
+            except SyntaxError:
+                return []
         return evaluated_values_list
 
     def find_existing_command(self, head, body):
