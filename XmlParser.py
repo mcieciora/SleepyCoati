@@ -25,5 +25,5 @@ class XmlParser:
                 usage_pattern_list = [usage_pattern_list]
             ret_val = [eval(element) for element in usage_pattern_list]
             return ret_val
-        except TypeError:
+        except (TypeError, KeyError):
             return []
