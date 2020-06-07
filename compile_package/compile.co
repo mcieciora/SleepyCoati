@@ -1,5 +1,6 @@
-#d variable_name
-#s variable_name 5
-#s variable_bool True
-#g variable_name
-#g variable_bool
+#d defined_value
+#s defined_value 5
+#d new_bool
+#s new_bool True
+#g new_bool
+#g defined_value

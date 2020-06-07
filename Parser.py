@@ -1,50 +1,71 @@
-from xml_parser import generate_all_commands_list
-from Command import Command
+from os.path import exists, abspath
+from logging import debug, error
+from ast import literal_eval
+from copy import copy
+from XmlParser import XmlParser
 
 
 class Parser:
-    def __init__(self, read_co, xml_file_path):
-        self.read_co = read_co
+    def __init__(self, co_file_path, xml_file_path):
+        self.co_file_path = co_file_path
         self.xml_file_path = xml_file_path
+        self.xml_commands = XmlParser(xml_file_path).parse_commands()
 
-    def build_command_list(self):
-        commands_list = []
-        print('[INF] Building commands list ..')
-        for expression in self.read_co:
-            print('[INF] Parsing expression: {} from read compile'.format(expression))
-            pattern = self.find_pattern_usage(expression)
-            print('[INF] Pattern set: {}'.format(pattern))
-            if pattern[0]:
-                print('[INF] Pattern is correct\n[INF] Appending command object into command list:'
-                      '\n[...] head: {}\n[...] name: {}\n[...] usage pattern: {}\n[...] body: {}'.format(expression.head, pattern[1].name,
-                                                                                  pattern[1].usage_pattern, expression.body))
-                commands_list.append(Command(expression.head, pattern[1].name, pattern[1].usage_pattern, expression.body))
-            else:
-                print('[ERR] Pattern is incorrect. Returning empty command list.')
-                commands_list = []
-                break
-        return commands_list
+    @property
+    def xml_file_path(self):
+        return self.__xml_file_path
 
-    def find_pattern_usage(self, expression_object):
-        print('[INF] Searching for pattern usage ..')
-        for gcbs in self.get_command_by_structure(expression_object.head):
-            if gcbs is not None and self.get_list_elements_type(expression_object.body) == gcbs.usage_pattern:
-                print('[INF] Pattern is correct')
-                return [True, gcbs]
-        print('[ERR] Pattern not found')
-        return [False]
+    @xml_file_path.setter
+    def xml_file_path(self, xml_file_path):
+        if exists(xml_file_path):
+            self.__xml_file_path = abspath(xml_file_path)
+        else:
+            error('[ERR] Incorrect commands xml file path.')
+            raise FileNotFoundError('Incorrect commands xml file path')
 
-    def get_command_by_structure(self, structure):
-        full_commands_list = []
-        print('[INF] Parsing commands in {}'.format(self.xml_file_path))
-        for command in generate_all_commands_list(self.xml_file_path):
-            print('[INF] For {} command checking if structures are equal ..'.format(command.name))
-            if command.structure == structure:
-                print('[INF] {} == {}'.format(command.structure, structure))
-                full_commands_list.append(command)
-        print('[INF] Returning all matching cases: {}'.format(full_commands_list))
-        return full_commands_list
+    @property
+    def co_file_path(self):
+        return self.__co_file_path
+
+    @co_file_path.setter
+    def co_file_path(self, co_file_path):
+        if exists(co_file_path):
+            self.__co_file_path = abspath(co_file_path)
+        else:
+            error('[ERR] Incorrect co file path.')
+            raise FileNotFoundError('Incorrect co file path')
+
+    def parse_co_file(self):
+        commands = []
+        with open(self.co_file_path, 'r') as co_file:
+            for line in co_file.readlines():
+                try:
+                    expression = line.split()
+                    new_command = self.find_existing_command(expression[0], self.evaluate_body_values(expression[1:]))
+                    if new_command is not False:
+                        commands.append(new_command)
+                except IndexError:
+                    debug('[DBG] "{}" line is not correct. Omitting!')
+        return commands
 
     @staticmethod
-    def get_list_elements_type(expression_list):
-        return [type(x) for x in expression_list]
+    def evaluate_body_values(body):
+        evaluated_values_list = []
+        for value in body:
+            try:
+                evaluated_values_list.append(literal_eval(value))
+            except ValueError:
+                evaluated_values_list.append(value)
+        return evaluated_values_list
+
+    def find_existing_command(self, head, body):
+        for command in self.xml_commands:
+            if command.structure == head and command.usage_pattern == self.get_list_elements_type(body):
+                command = copy(command)
+                command.body = body
+                return command
+        return False
+
+    @staticmethod
+    def get_list_elements_type(body):
+        return [type(x) for x in body]
